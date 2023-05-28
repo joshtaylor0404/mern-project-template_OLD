@@ -7,6 +7,7 @@ import {
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { loggedIn, logout } from "./utils/auth";
 
 import Home from "./pages/Home";
 import Signup from "./pages/Signup";
@@ -45,12 +46,22 @@ function App() {
             <li>
               <Link to="/">Home</Link>
             </li>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-            <li>
-              <Link to="/signup">Signup</Link>
-            </li>
+            {!loggedIn() ? (
+              <>
+                <li>
+                  <Link to="/login">Login</Link>
+                </li>
+                <li>
+                  <Link to="/signup">Signup</Link>
+                </li>
+              </>
+            ) : (
+              <li>
+                <a href="/#" onClick={logout}>
+                  Log Out
+                </a>
+              </li>
+            )}
           </ul>
           <Routes>
             <Route path="/" element={<Home />} />
